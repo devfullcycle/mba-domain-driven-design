@@ -19,8 +19,9 @@ export class Partner extends AggregateRoot {
   id: PartnerId;
   name: string;
 
-  constructor(props: PartnerConstructorProps) {
+  constructor(props: PartnerConstructorProps, id?: PartnerId) {
     super();
+    console.log(props, id);
     this.id =
       typeof props.id === 'string'
         ? new PartnerId(props.id)

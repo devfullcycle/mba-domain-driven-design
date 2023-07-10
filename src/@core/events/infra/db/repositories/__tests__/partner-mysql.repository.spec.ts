@@ -1,7 +1,7 @@
 import { MikroORM, MySqlDriver } from '@mikro-orm/mysql';
-import { PartnerSchema } from '../schemas';
-import { Partner } from '../../../domain/entities/partner.entity';
-import { PartnerMysqlRepository } from './partner-mysql.repository';
+import { PartnerSchema } from '../../schemas';
+import { Partner } from '../../../../domain/entities/partner.entity';
+import { PartnerMysqlRepository } from '../partner-mysql.repository';
 
 test('partner repository', async () => {
   const orm = await MikroORM.init<MySqlDriver>({

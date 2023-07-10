@@ -9,6 +9,7 @@ import { EventSection } from '../../domain/entities/event-section';
 import { EventSectionIdSchemaType } from './types/event-section-id.schema-type';
 import { EventSpot } from '../../domain/entities/event-spot';
 import { EventSpotIdSchemaType } from './types/event-spot-id.schema-type';
+import { Event } from '../../domain/entities/event.entity';
 
 export const PartnerSchema = new EntitySchema<Partner>({
   class: Partner,

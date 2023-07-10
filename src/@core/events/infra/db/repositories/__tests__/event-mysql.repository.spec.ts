@@ -35,8 +35,19 @@ test('Event repository', async () => {
     description: 'Event 1 description',
   });
 
+  event.addSection({
+    name: 'Section 1',
+    description: 'Section 1 description',
+    price: 100,
+    total_spots: 1000,
+  });
+
   await eventRepo.add(event);
   await em.flush();
+  await em.clear();
+
+  const eventFound = await eventRepo.findById(event.id);
+  console.log(eventFound);
 
   await orm.close();
 });

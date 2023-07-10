@@ -55,8 +55,10 @@ export const EventSchema = new EntitySchema<Event>({
     partner_id: {
       reference: 'm:1',
       entity: () => Partner,
+      hidden: true,
       mapToPk: true,
       customType: new PartnerIdSchemaType(),
+      inherited: true,
     },
   },
 });

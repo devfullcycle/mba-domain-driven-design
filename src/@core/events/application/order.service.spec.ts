@@ -84,19 +84,27 @@ test('deve criar uma order', async () => {
     unitOfWork,
   );
 
-  await orderService.create({
+  const op1 = orderService.create({
     event_id: event.id.value,
     section_id: event.sections[0].id.value,
     customer_id: customer.id.value,
     spot_id: event.sections[0].spots[0].id.value,
   });
 
-  // await orderService.create({
-  //   event_id: event.id.value,
-  //   section_id: event.sections[0].id.value,
-  //   customer_id: customer.id.value,
-  //   spot_id: event.sections[0].spots[0].id.value,
-  // });
+  const op2 = orderService.create({
+    event_id: event.id.value,
+    section_id: event.sections[0].id.value,
+    customer_id: customer.id.value,
+    spot_id: event.sections[0].spots[0].id.value,
+  });
+
+  try {
+    await Promise.all([op1, op2]);
+  } catch (e) {
+    console.log(e);
+    console.log(await orderRepo.findAll());
+    console.log(await spotReservationRepo.findAll());
+  }
 
   await orm.close();
 });

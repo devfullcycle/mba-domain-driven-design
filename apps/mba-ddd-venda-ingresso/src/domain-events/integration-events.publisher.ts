@@ -12,6 +12,7 @@ export class IntegrationEventsPublisher {
     console.log('IntegrationEventsPublisher.handle', job.data);
     await this.amqpConnection.publish(
       'amq.direct',
+      //events.fullcycle.com/PartnerCreated
       job.data.event_name,
       job.data,
     );

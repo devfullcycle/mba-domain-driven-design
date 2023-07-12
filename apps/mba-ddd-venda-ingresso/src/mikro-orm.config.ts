@@ -7,6 +7,7 @@ import {
   PartnerSchema,
   SpotReservationSchema,
 } from './@core/events/infra/db/schemas';
+import { StoredEventSchema } from './@core/stored-events/infra/db/schemas';
 
 export default {
   entities: [
@@ -17,6 +18,7 @@ export default {
     EventSpotSchema,
     OrderSchema,
     SpotReservationSchema,
+    StoredEventSchema,
   ],
   dbName: 'events',
   host: 'localhost',

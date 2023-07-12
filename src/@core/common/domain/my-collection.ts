@@ -12,7 +12,7 @@ export interface ICollection<T extends object> {
 }
 //Design Pattern - Proxy
 
-export type AnyCollection<T extends object> = Collection<T>
+export type AnyCollection<T extends object> = Collection<T>;
 
 export class MyCollectionFactory {
   static create<T extends object>(ref): ICollection<T> {

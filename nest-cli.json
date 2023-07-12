@@ -1,10 +1,34 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/mba-ddd-venda-ingresso/src",
   "compilerOptions": {
     "deleteOutDir": true,
     "builder": "swc",
-    "typeCheck": true
+    "typeCheck": true,
+    "webpack": true,
+    "tsConfigPath": "apps/mba-ddd-venda-ingresso/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/mba-ddd-venda-ingresso",
+  "projects": {
+    "mba-ddd-venda-ingresso": {
+      "type": "application",
+      "root": "apps/mba-ddd-venda-ingresso",
+      "entryFile": "main",
+      "sourceRoot": "apps/mba-ddd-venda-ingresso/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/mba-ddd-venda-ingresso/tsconfig.app.json"
+      }
+    },
+    "emails": {
+      "type": "application",
+      "root": "apps/emails",
+      "entryFile": "main",
+      "sourceRoot": "apps/emails/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/emails/tsconfig.app.json"
+      }
+    }
   }
 }

@@ -164,10 +164,13 @@ export class EventsModule implements OnModuleInit {
         await handler.handle(event);
       });
     });
-    this.domainEventManager.register(PartnerCreated.name, async (event) => {
-      console.log('integration events');
-      const integrationEvent = new PartnerCreatedIntegrationEvent(event);
-      await this.integrationEventsQueue.add(integrationEvent);
-    });
+    this.domainEventManager.registerForIntegrationEvent(
+      PartnerCreated.name,
+      async (event) => {
+        console.log('integration events');
+        const integrationEvent = new PartnerCreatedIntegrationEvent(event);
+        await this.integrationEventsQueue.add(integrationEvent);
+      },
+    );
   }
 }

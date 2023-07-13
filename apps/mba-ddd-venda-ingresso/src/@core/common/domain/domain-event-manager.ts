@@ -2,23 +2,37 @@ import EventEmitter2 from 'eventemitter2';
 import { AggregateRoot } from './aggregate-root';
 
 export class DomainEventManager {
-  eventEmitter: EventEmitter2;
+  domainEventsSubscriber: EventEmitter2;
+  integrationEventsSubscriber: EventEmitter2;
 
   constructor() {
-    this.eventEmitter = new EventEmitter2({
+    this.domainEventsSubscriber = new EventEmitter2({
+      wildcard: true,
+    });
+    this.integrationEventsSubscriber = new EventEmitter2({
       wildcard: true,
     });
   }
 
   register(event: string, handler: any) {
-    this.eventEmitter.on(event, handler);
+    this.domainEventsSubscriber.on(event, handler);
+  }
+
+  registerForIntegrationEvent(event: string, handler: any) {
+    this.integrationEventsSubscriber.on(event, handler);
   }
 
   async publish(aggregateRoot: AggregateRoot) {
     for (const event of aggregateRoot.events) {
       const eventClassName = event.constructor.name;
-      await this.eventEmitter.emitAsync(eventClassName, event);
-      aggregateRoot.clearEvents();
+      await this.domainEventsSubscriber.emitAsync(eventClassName, event);
+    }
+  }
+
+  async publishForIntegrationEvent(aggregateRoot: AggregateRoot) {
+    for (const event of aggregateRoot.events) {
+      const eventClassName = event.constructor.name;
+      await this.integrationEventsSubscriber.emitAsync(eventClassName, event);
     }
   }
 }

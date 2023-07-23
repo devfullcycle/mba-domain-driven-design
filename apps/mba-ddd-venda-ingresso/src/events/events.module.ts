@@ -31,13 +31,13 @@ import { OrdersController } from './orders/orders.controller';
 import { ApplicationModule } from '../application/application.module';
 import { ApplicationService } from '../@core/common/application/application.service';
 import { DomainEventManager } from '../@core/common/domain/domain-event-manager';
-import { PartnerCreated } from '../@core/events/domain/domain-events/partner-created.event';
+import { PartnerCreated } from '../@core/events/domain/events/domain-events/partner-created.event';
 import { MyHandlerHandler } from '../@core/events/application/handlers/my-handler.handler';
 import { ModuleRef } from '@nestjs/core';
 import { BullModule, InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { IIntegrationEvent } from '../@core/common/domain/integration-event';
-import { PartnerCreatedIntegrationEvent } from '../@core/events/domain/integration-events/partner-created.int-events';
+import { PartnerCreatedIntegrationEvent } from '../@core/events/domain/events/integration-events/partner-created.int-events';
 
 @Module({
   imports: [

@@ -1,4 +1,4 @@
-import { IIntegrationEvent } from '../../../common/domain/integration-event';
+import { IIntegrationEvent } from '../../../../common/domain/integration-event';
 import { PartnerCreated } from '../domain-events/partner-created.event';
 
 export class PartnerCreatedIntegrationEvent implements IIntegrationEvent {

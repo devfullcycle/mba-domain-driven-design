@@ -8,6 +8,17 @@ import {
   MyCollectionFactory,
 } from '../../../common/domain/my-collection';
 import { EventSpotId } from './event-spot';
+import { EventCreated } from '../events/domain-events/event-created.event';
+import { EventChangedName } from '../events/domain-events/event-changed-name.event';
+import { EventChangedDescription } from '../events/domain-events/event-changed-description.event';
+import { EventChangedDate } from '../events/domain-events/event-changed-date.event';
+import { EventPublishAll } from '../events/domain-events/event-publish-all.event';
+import { EventPublish } from '../events/domain-events/event-publish.event';
+import { EventUnpublish } from '../events/domain-events/event-unpublish.event';
+import { EventAddedSection } from '../events/domain-events/event-added-section.event';
+import { EventChangedSectionSection } from '../events/domain-events/event-changed-section-information.event';
+import { EventChangedSpotLocation } from '../events/domain-events/event-changed-spot-location.event';
+import { EventMarkedSportAsReserved } from '../events/domain-events/event-maked-sport-as-reserved.event';
 
 export class EventId extends Uuid {}
 
@@ -68,44 +79,78 @@ export class Event extends AggregateRoot {
   }
 
   static create(command: CreateEventCommand) {
-    return new Event({
+    const event = new Event({
       ...command,
       description: command.description ?? null,
       is_published: false,
       total_spots: 0,
       total_spots_reserved: 0,
     });
+    event.addEvent(
+      new EventCreated(
+        event.id,
+        event.name,
+        event.description,
+        event.date,
+        event.is_published,
+        event.total_spots,
+        event.total_spots_reserved,
+        event.partner_id,
+      ),
+    );
+    return event;
   }
 
   changeName(name: string) {
     this.name = name;
+    this.addEvent(new EventChangedName(this.id, this.name));
   }
 
   changeDescription(description: string | null) {
     this.description = description;
+    this.addEvent(new EventChangedDescription(this.id, this.description));
   }
 
   changeDate(date: Date) {
     this.date = date;
+    this.addEvent(new EventChangedDate(this.id, this.date));
   }
 
   publishAll() {
     this.publish();
     this._sections.forEach((section) => section.publishAll());
+    this.addEvent(
+      new EventPublishAll(
+        this.id,
+        this._sections.map((s) => s.id),
+      ),
+    );
   }
 
   publish() {
     this.is_published = true;
+    this.addEvent(new EventPublish(this.id));
   }
 
   unPublish() {
     this.is_published = false;
+    this.addEvent(new EventUnpublish(this.id));
   }
 
   addSection(command: AddSectionCommand) {
     const section = EventSection.create(command);
     this._sections.add(section);
     this.total_spots += section.total_spots;
+    this.addEvent(
+      new EventAddedSection(
+        this.id,
+        section.name,
+        section.description,
+        section.total_spots,
+        section.price,
+        this.total_spots,
+      ),
+    );
   }
 
   changeSectionInformation(command: {
@@ -121,6 +166,14 @@ export class Event extends AggregateRoot {
     }
     'name' in command && section.changeName(command.name);
     'description' in command && section.changeDescription(command.description);
+    this.addEvent(
+      new EventChangedSectionSection(
+        this.id,
+        section.id,
+        section.name,
+        section.description,
+      ),
+    );
   }
 
   changeLocation(command: {
@@ -135,6 +188,14 @@ export class Event extends AggregateRoot {
       throw new Error('Section not found');
     }
     section.changeLocation(command);
+    this.addEvent(
+      new EventChangedSpotLocation(
+        this.id,
+        section.id,
+        command.spot_id,
+        command.location,
+      ),
+    );
   }
 
   allowReserveSpot(data: { section_id: EventSectionId; spot_id: EventSpotId }) {
@@ -161,6 +222,9 @@ export class Event extends AggregateRoot {
     }
 
     section.markSpotAsReserved(command.spot_id);
+    this.addEvent(
+      new EventMarkedSportAsReserved(this.id, section.id, command.spot_id),
+    );
   }
 
   get sections(): ICollection<EventSection> {

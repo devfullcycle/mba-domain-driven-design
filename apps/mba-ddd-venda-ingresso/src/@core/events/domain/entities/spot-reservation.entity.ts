@@ -1,4 +1,6 @@
 import { AggregateRoot } from '../../../common/domain/aggregate-root';
+import { SpotReservationChanged } from '../events/domain-events/spot-reservation-changed.event';
+import { SpotReservationCreated } from '../events/domain-events/spot-reservation-created.event';
 import { CustomerId } from './customer.entity';
 import { EventSpotId } from './event-spot';
 
@@ -32,16 +34,31 @@ export class SpotReservation extends AggregateRoot {
   }
 
   static create(command: SpotReservationCreateCommand) {
-    return new SpotReservation({
+    const reservation = new SpotReservation({
       spot_id: command.spot_id,
       customer_id: command.customer_id,
       reservation_date: new Date(),
     });
+    reservation.addEvent(
+      new SpotReservationCreated(
+        reservation.spot_id,
+        reservation.reservation_date,
+        reservation.customer_id,
+      ),
+    );
+    return reservation;
   }
 
   changeReservation(customer_id: CustomerId) {
     this.customer_id = customer_id;
     this.reservation_date = new Date();
+    this.addEvent(
+      new SpotReservationChanged(
+        this.spot_id,
+        this.reservation_date,
+        this.customer_id,
+      ),
+    );
   }
 
   toJSON() {

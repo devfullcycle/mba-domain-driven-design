@@ -1,5 +1,5 @@
-import { IDomainEvent } from '../../../common/domain/domain-event';
-import { PartnerId } from '../entities/partner.entity';
+import { IDomainEvent } from '../../../../common/domain/domain-event';
+import { PartnerId } from '../../entities/partner.entity';
 
 export class PartnerCreated implements IDomainEvent {
   readonly event_version: number = 1;

@@ -6,6 +6,7 @@ export interface ICollection<T extends object> {
   remove(item: T, ...items: T[]): void;
   find(predicate: (item: T) => boolean): T | undefined;
   forEach(callbackfn: (value: T, index: number) => void): void;
+  map<U>(callbackfn: (value: T, index: number) => U): U[];
   removeAll(): void;
   count(): number;
   [Symbol.iterator](): IterableIterator<T>;
@@ -48,6 +49,13 @@ export class MyCollectionFactory {
             return target.isInitialized() ? target.getItems().length : 0;
           };
         }
+
+        if (prop === 'map') {
+          return (callbackfn: (value: T, index: number) => any): any[] => {
+            return target.getItems(false).map(callbackfn);
+          };
+        }
+
         return Reflect.get(target, prop, receiver);
       },
     });

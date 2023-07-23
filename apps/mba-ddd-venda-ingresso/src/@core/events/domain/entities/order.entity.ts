@@ -1,5 +1,8 @@
 import { AggregateRoot } from '../../../common/domain/aggregate-root';
 import Uuid from '../../../common/domain/value-objects/uuid.vo';
+import { OrderCancelled } from '../events/domain-events/order-cancelled.event';
+import { OrderCreated } from '../events/domain-events/order-created.event';
+import { OrderPaid } from '../events/domain-events/order-paid.event';
 import { CustomerId } from './customer.entity';
 import { EventSpotId } from './event-spot';
 
@@ -43,15 +46,27 @@ export class Order extends AggregateRoot {
   }
 
   static create(props: OrderConstructorProps) {
-    return new Order(props);
+    const order = new Order(props);
+    order.addEvent(
+      new OrderCreated(
+        order.id,
+        order.customer_id,
+        order.amount,
+        order.event_spot_id,
+        order.status,
+      ),
+    );
+    return order;
   }
 
   pay() {
     this.status = OrderStatus.PAID;
+    this.addEvent(new OrderPaid(this.id, this.status));
   }
 
   cancel() {
     this.status = OrderStatus.CANCELLED;
+    this.addEvent(new OrderCancelled(this.id, this.status));
   }
 
   toJSON() {

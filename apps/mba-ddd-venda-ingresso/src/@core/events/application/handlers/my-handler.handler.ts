@@ -1,7 +1,7 @@
 import { IDomainEventHandler } from '../../../common/application/domain-event-handler.interface';
 import { IDomainEvent } from '../../../common/domain/domain-event';
 import { DomainEventManager } from '../../../common/domain/domain-event-manager';
-import { PartnerCreated } from '../../domain/domain-events/partner-created.event';
+import { PartnerCreated } from '../../domain/events/domain-events/partner-created.event';
 import { IPartnerRepository } from '../../domain/repositories/partner-repository.interface';
 
 export class MyHandlerHandler implements IDomainEventHandler {

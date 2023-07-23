@@ -18,7 +18,7 @@ import { EventUnpublish } from '../events/domain-events/event-unpublish.event';
 import { EventAddedSection } from '../events/domain-events/event-added-section.event';
 import { EventChangedSectionSection } from '../events/domain-events/event-changed-section-information.event';
 import { EventChangedSpotLocation } from '../events/domain-events/event-changed-spot-location.event';
-import { EventMarkedSportAsReserved } from '../events/domain-events/event-maked-sport-as-reserved.event';
+import { EventMarkedSportAsReserved } from '../events/domain-events/event-marked-sport-as-reserved.event';
 
 export class EventId extends Uuid {}
 

@@ -21,7 +21,6 @@ import { EventService } from '../@core/events/application/event.service';
 import { OrderService } from '../@core/events/application/order.service';
 import { PaymentGateway } from '../@core/events/application/payment.gateway';
 import { IPartnerRepository } from '../@core/events/domain/repositories/partner-repository.interface';
-import { IUnitOfWork } from '../@core/common/application/unit-of-work.interface';
 import { PartnersController } from './partners/partners.controller';
 import { CustomersController } from './customers/customers.controller';
 import { EventsController } from './events/events.controller';

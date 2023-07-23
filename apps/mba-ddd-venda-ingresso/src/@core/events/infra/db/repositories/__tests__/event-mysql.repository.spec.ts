@@ -20,7 +20,7 @@ test('Event repository', async () => {
     password: 'root',
     type: 'mysql',
     forceEntityConstructor: true,
-    debug: true
+    debug: true,
   });
   await orm.schema.refreshDatabase();
   const em = orm.em.fork();

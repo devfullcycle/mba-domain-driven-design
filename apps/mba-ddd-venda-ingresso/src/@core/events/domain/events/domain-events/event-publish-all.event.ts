@@ -7,7 +7,7 @@ export class EventPublishAll implements IDomainEvent {
   readonly occurred_on: Date;
 
   readonly is_published: boolean = true;
-  
+
   constructor(
     readonly aggregate_id: EventId,
     readonly sections_id: EventSectionId[],

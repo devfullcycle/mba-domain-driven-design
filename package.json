@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
+    "format": "prettier --write \"apps/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -17,10 +17,11 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./apps/mba-ddd-venda-ingresso/test/jest-e2e.json"
+    "test:e2e": "jest --config ./apps/mba-ddd-venda-ingresso/test/jest-e2e.json",
+    "prepare": "husky install"
   },
   "dependencies": {
-    "@golevelup/nestjs-rabbitmq": "^3.7.0",
+    "@golevelup/nestjs-rabbitmq": "^4.0.0",
     "@mikro-orm/cli": "^5.7.12",
     "@mikro-orm/core": "^5.7.12",
     "@mikro-orm/mysql": "^5.7.12",
@@ -53,6 +54,7 @@
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
     "jest": "^29.6.1",
     "prettier": "^2.8.8",
     "source-map-support": "^0.5.21",

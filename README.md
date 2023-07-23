@@ -1,44 +1,36 @@
-# Javascript
-Sequelize - Active Record 
-Prisma - Active Record
-TypeORM - Active Record / Data Mapper * (Unit of Work)
-Knex - queries mais de baixo de nível
-Bookshelf - Active Record
-Mikro ORM - Data Mapper
+# MBA Full Cycle - Domain Driven Design
 
-# Python
-Django ORM - Active Record
+Este repositório contém o código-fonte e material didático do curso de Domain Driven Design do MBA Full Cycle.
 
+O projeto é feito com Nestjs, mas o conteúdo é independente de linguagem ou framework.
 
-# Ruby
-Rails - Active Record
+## Pré-requisitos
 
-# Java
-Hibernate - Data Mapper
+- Node.js 18+
+- Docker
 
-# PHP
-Doctrine - Data Mapper
-Eloquent - Active Record
+## Executar o projeto
 
-# .Net
-Entity Framework - Data Mapper
+Suba as aplicações MySQL, RabbitMQ e Redis:
 
+```bash
+docker-compose up -d
+```
 
-# Active Record vs Data Mapper
+Instale as dependências do Node.js:
 
+```bash
+npm install
+```
 
-# Dúvidas gerais
+Use o arquivo `api.http` como referência para fazer as requisições HTTP. Este arquivo funciona com a extensão [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) do VSCode.
 
-## Regras dos agregados
+## Professor
 
-- Um agregado é uma transação atômica
-- Um agregado protege invariantes de consistência
-- Um agregado referência outros agregados por identidade
-- Somente um agregado deve ser processado por transação
-
-## Razões para quebrar as regras dos agregados
-
-- Conveniência da Interface do Usuário
-- A falta de mecanismos técnicos ou restrições de negócios
-- Transações globais (legados)
-- Desempenho das consultas (referências)
+<a href="https://github.com/argentinaluiz">
+    <img src="https://avatars.githubusercontent.com/u/4926329?v=4?s=100" width="100px;" alt=""/>
+    <br />
+    <sub>
+        <b>Luiz Carlos</b>
+    </sub>
+</a>

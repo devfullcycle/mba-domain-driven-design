@@ -105,7 +105,7 @@ export class EventService {
       description: input.description,
     });
     await this.eventRepo.add(event);
-    this.uow.commit();
+    await this.uow.commit();
     return event.sections;
   }
 

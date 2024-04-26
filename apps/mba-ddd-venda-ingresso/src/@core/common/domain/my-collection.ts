@@ -9,6 +9,8 @@ export interface ICollection<T extends object> {
   map<U>(callbackfn: (value: T, index: number) => U): U[];
   removeAll(): void;
   count(): number;
+  size: number;
+  values(): T[];
   [Symbol.iterator](): IterableIterator<T>;
 }
 //Design Pattern - Proxy
@@ -53,6 +55,16 @@ export class MyCollectionFactory {
         if (prop === 'map') {
           return (callbackfn: (value: T, index: number) => any): any[] => {
             return target.getItems(false).map(callbackfn);
+          };
+        }
+
+        if (prop === 'size') {
+          return target.getItems(false).length;
+        }
+
+        if (prop === 'values') {
+          return () => {
+            return target.getItems(false);
           };
         }
 

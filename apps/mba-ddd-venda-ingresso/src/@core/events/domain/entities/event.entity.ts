@@ -233,9 +233,7 @@ export class Event extends AggregateRoot {
       try {
         section.markSpotAsAvailable(spot_id);
         // encontrou a seção dona, emite o evento de domínio
-        this.addEvent(
-          new EventSpotReleased(this.id, section.id, spot_id),
-        );
+        this.addEvent(new EventSpotReleased(this.id, section.id, spot_id));
         return;
       } catch (err) {
         // não é dessa seção
@@ -244,10 +242,7 @@ export class Event extends AggregateRoot {
     throw new Error('Spot not found in any section');
   }
 
-  releaseSpot(command: {
-    section_id: EventSectionId;
-    spot_id: EventSpotId;
-  }) {
+  releaseSpot(command: { section_id: EventSectionId; spot_id: EventSpotId }) {
     const section = this.sections.find((s) => s.id.equals(command.section_id));
 
     if (!section) {
@@ -255,9 +250,7 @@ export class Event extends AggregateRoot {
     }
 
     section.releaseSpot(command);
-    this.addEvent(
-      new EventSpotReleased(this.id, section.id, command.spot_id),
-    );
+    this.addEvent(new EventSpotReleased(this.id, section.id, command.spot_id));
   }
 
   get sections(): ICollection<EventSection> {

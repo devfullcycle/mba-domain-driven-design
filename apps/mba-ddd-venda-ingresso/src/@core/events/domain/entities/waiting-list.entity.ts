@@ -109,7 +109,12 @@ export class WaitingList extends AggregateRoot {
     const entry = WaitingListEntry.create({ customer_id });
     this._entries.push(entry);
     this.addEvent(
-      new CustomerJoinedWaitingList(this.id, customer_id, this.event_id, this.section_id),
+      new CustomerJoinedWaitingList(
+        this.id,
+        customer_id,
+        this.event_id,
+        this.section_id,
+      ),
     );
   }
 
@@ -132,7 +137,9 @@ export class WaitingList extends AggregateRoot {
   }
 
   get entries(): WaitingListEntry[] {
-    return [...this._entries].sort((a, b) => a.id.value.localeCompare(b.id.value)); // simple order by arrival via id
+    return [...this._entries].sort((a, b) =>
+      a.id.value.localeCompare(b.id.value),
+    ); // simple order by arrival via id
   }
 
   toJSON() {

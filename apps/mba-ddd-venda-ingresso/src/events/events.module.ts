@@ -242,9 +242,8 @@ export class EventsModule implements OnModuleInit {
     this.domainEventManager.registerForIntegrationEvent(
       SpotOfferedToWaitingCustomerIntegrationEvent.name,
       async (domainEvent) => {
-        const integrationEvent = new SpotOfferedToWaitingCustomerIntegrationEvent(
-          domainEvent,
-        );
+        const integrationEvent =
+          new SpotOfferedToWaitingCustomerIntegrationEvent(domainEvent);
         await this.integrationEventsQueue.add(integrationEvent);
       },
     );

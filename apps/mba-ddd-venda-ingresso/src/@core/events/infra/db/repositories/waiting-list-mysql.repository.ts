@@ -4,7 +4,7 @@ import {
   WaitingListId,
 } from '../../../domain/entities/waiting-list.entity';
 import { IWaitingListRepository } from '../../../domain/repositories/waiting-list-repository.interface';
-import { EventId } from '../../../domain/entities/event';
+import { EventId } from '../../../domain/entities/event.entity';
 import { EventSectionId } from '../../../domain/entities/event-section';
 
 export class WaitingListMysqlRepository implements IWaitingListRepository {

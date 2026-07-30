@@ -1,5 +1,5 @@
 import { IDomainEvent } from '../../../../common/domain/domain-event';
-import { EventId } from '../../entities/event';
+import { EventId } from '../../entities/event.entity';
 import { EventSectionId } from '../../entities/event-section';
 import { EventSpotId } from '../../entities/event-spot';
 
@@ -8,6 +8,7 @@ export class EventSpotReleased implements IDomainEvent {
   readonly occurred_on: Date;
 
   constructor(
+    readonly aggregate_id: EventId,
     readonly event_id: EventId,
     readonly section_id: EventSectionId,
     readonly spot_id: EventSpotId,

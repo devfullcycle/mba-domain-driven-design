@@ -20,17 +20,13 @@ export class OrderCancelledHandler implements IDomainEventHandler {
       throw new Error('Event not found for spot');
     }
 
-    // Encontra a seção que contém o spot (lógica no agregado)
-    eventAggregate.markSpotAsAvailable(spotId as any); // cast temporário até assinatura sem section_id
+    eventAggregate.markSpotAsAvailable(spotId);
 
-    // Remove a SpotReservation
-    // Encontra e deleta a reserva (pretende implementar find por spot)
     const reservation = await this.spotReservationRepo.findBySpotId(spotId);
     if (reservation) {
       await this.spotReservationRepo.delete(reservation);
     }
 
-    // Persist e publica eventos do agregado modificado
     await this.eventRepo.add(eventAggregate);
     await this.domainEventManager.publish(eventAggregate);
   }

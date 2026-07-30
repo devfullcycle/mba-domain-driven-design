@@ -102,18 +102,21 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/events/{{event_id}}/orders/{{order_id}}/cancel
-Content-Type: application/json
+@order_id = 00000000-0000-0000-0000-000000000001
 
 ###
-@customer_b_id = 61f0ff6e-0bb1-4635-8899-4b88ce46975c
+POST http://localhost:3000/orders/{{order_id}}/cancel
+Content-Type: application/json
+
+{
+}
 
 ###
 POST http://localhost:3000/events/{{event_id}}/sections/{{section_id}}/waiting-list
 Content-Type: application/json
 
 {
-    "customer_id": "{{customer_b_id}}"
+  "customer_id": "{{customer_id}}"
 }
 
 ###

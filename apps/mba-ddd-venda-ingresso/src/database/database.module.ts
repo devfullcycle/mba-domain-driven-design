@@ -8,7 +8,6 @@ import {
   OrderSchema,
   PartnerSchema,
   SpotReservationSchema,
-  StoredEventSchema,
   WaitingListSchema,
   WaitingListEntrySchema,
 } from '../@core/events/infra/db/schemas';
@@ -27,7 +26,6 @@ import { UnitOfWorkMikroOrm } from '../@core/common/infra/unit-of-work-mikro-orm
         EventSpotSchema,
         OrderSchema,
         SpotReservationSchema,
-        StoredEventSchema,
         WaitingListSchema,
         WaitingListEntrySchema,
       ],

@@ -3,7 +3,7 @@ import { ICustomerRepository } from '../domain/repositories/customer-repository.
 import { IEventRepository } from '../domain/repositories/event-repository.interface';
 import { IWaitingListRepository } from '../domain/repositories/waiting-list-repository.interface';
 import { CustomerId } from '../domain/entities/customer.entity';
-import { EventId } from '../domain/entities/event';
+import { EventId } from '../domain/entities/event.entity';
 import { EventSectionId } from '../domain/entities/event-section';
 import { WaitingList } from '../domain/entities/waiting-list.entity';
 

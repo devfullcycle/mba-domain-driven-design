@@ -1,7 +1,7 @@
 import { IDomainEvent } from '../../../../common/domain/domain-event';
 import { WaitingListId } from '../../entities/waiting-list.entity';
 import { CustomerId } from '../../entities/customer.entity';
-import { EventId } from '../../entities/event';
+import { EventId } from '../../entities/event.entity';
 import { EventSectionId } from '../../entities/event-section';
 
 export class CustomerJoinedWaitingList implements IDomainEvent {

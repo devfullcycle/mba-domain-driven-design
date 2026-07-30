@@ -1,5 +1,5 @@
 import { Type } from '@mikro-orm/core';
-import { WaitingListEntryId } from '../../domain/entities/waiting-list.entity';
+import { WaitingListEntryId } from '../../../domain/entities/waiting-list-entry.entity';
 
 export class WaitingListEntryIdSchemaType extends Type<
   WaitingListEntryId,

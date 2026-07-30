@@ -1,64 +1,19 @@
 import { AggregateRoot } from '../../../common/domain/aggregate-root';
-import { MyCollectionFactory } from '../../../common/domain/my-collection';
 import Uuid from '../../../common/domain/value-objects/uuid.vo';
 import { CustomerId } from './customer.entity';
-import { EventId } from './event';
+import { EventId } from './event.entity';
 import { EventSectionId } from './event-section';
+import { EventSpotId } from './event-spot';
+import {
+  WaitingListEntry,
+  WaitingListEntryId,
+  WaitingListEntryStatus,
+  WaitingListEntryConstructorProps,
+} from './waiting-list-entry.entity';
 import { SpotOfferedToWaitingCustomer } from '../events/domain-events/spot-offered-to-waiting-customer.event';
 import { CustomerJoinedWaitingList } from '../events/domain-events/customer-joined-waiting-list.event';
 
 export class WaitingListId extends Uuid {}
-export class WaitingListEntryId extends Uuid {}
-
-export enum WaitingListEntryStatus {
-  PENDING = 'PENDING',
-  NOTIFIED = 'NOTIFIED',
-}
-
-export type WaitingListEntryConstructorProps = {
-  id?: WaitingListEntryId | string;
-  customer_id: CustomerId;
-  status?: WaitingListEntryStatus;
-};
-
-export class WaitingListEntry extends AggregateRoot {
-  id: WaitingListEntryId;
-  customer_id: CustomerId;
-  status: WaitingListEntryStatus = WaitingListEntryStatus.PENDING;
-
-  constructor(props: WaitingListEntryProps) {
-    super();
-    this.id =
-      typeof props.id === 'string'
-        ? new WaitingListEntryId(props.id)
-        : props.id ?? new WaitingListEntryId();
-    this.customer_id =
-      props.customer_id instanceof CustomerId
-        ? props.customer_id
-        : new CustomerId(props.customer_id);
-    this.status = props.status ?? WaitingListEntryStatus.PENDING;
-  }
-
-  static create(props: WaitingListEntryConstructorProps) {
-    const entry = new WaitingListEntry(props);
-    return entry;
-  }
-
-  notify() {
-    if (this.status === WaitingListEntryStatus.NOTIFIED) {
-      return;
-    }
-    this.status = WaitingListEntryStatus.NOTIFIED;
-  }
-
-  toJSON() {
-    return {
-      id: this.id.value,
-      customer_id: this.customer_id.value,
-      status: this.status,
-    };
-  }
-}
 
 export type WaitingListConstructorProps = {
   id?: WaitingListId | string;
@@ -127,6 +82,7 @@ export class WaitingList extends AggregateRoot {
     }
     pendingEntry.notify();
     const event = new SpotOfferedToWaitingCustomer(
+      this.id,
       pendingEntry.customer_id,
       this.event_id,
       this.section_id,

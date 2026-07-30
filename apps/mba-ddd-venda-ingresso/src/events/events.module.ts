@@ -43,10 +43,11 @@ import { IIntegrationEvent } from '../@core/common/domain/integration-event';
 import { PartnerCreatedIntegrationEvent } from '../@core/events/domain/events/integration-events/partner-created.int-events';
 import { OrderCancelledHandler } from '../@core/events/application/handlers/order-cancelled.handler';
 import { EventSpotReleasedHandler } from '../@core/events/application/handlers/event-spot-released.handler';
-import { WaitingListService } from '../@core/events/application/waiting-list.service';
+import { IEventRepository } from '../@core/events/domain/repositories/event-repository.interface';
+import { ISpotReservationRepository } from '../@core/events/domain/repositories/spot-reservation-repository.interface';
 import { IWaitingListRepository } from '../@core/events/domain/repositories/waiting-list-repository.interface';
 import { SpotOfferedToWaitingCustomerIntegrationEvent } from '../@core/events/domain/events/integration-events/spot-offered-to-waiting-customer.int-events';
-import { WaitingListController } from './waiting-list/waiting-list.controller';
+import { WaitingListService } from '../@core/events/application/waiting-list.service';
 
 @Module({
   imports: [
@@ -157,14 +158,39 @@ import { WaitingListController } from './waiting-list/waiting-list.controller';
     },
     {
       provide: OrderCancelledHandler,
-      useFactory: (orderRepo, uow) => new OrderCancelledHandler(orderRepo, uow),
-      inject: ['IOrderRepository', 'IUnitOfWork'],
+      useFactory: (
+        eventRepo: IEventRepository,
+        spotReservationRepo: ISpotReservationRepository,
+        domainEventManager: DomainEventManager,
+      ) =>
+        new OrderCancelledHandler(
+          eventRepo,
+          spotReservationRepo,
+          domainEventManager,
+        ),
+      inject: [
+        'IEventRepository',
+        'ISpotReservationRepository',
+        DomainEventManager,
+      ],
     },
     {
       provide: EventSpotReleasedHandler,
-      useFactory: (eventRepo, partnerRepo, uow) =>
-        new EventSpotReleasedHandler(eventRepo, partnerRepo, uow),
-      inject: ['IEventRepository', 'IPartnerRepository', 'IUnitOfWork'],
+      useFactory: (
+        waitingListRepo: IWaitingListRepository,
+        eventRepo: IEventRepository,
+        domainEventManager: DomainEventManager,
+      ) =>
+        new EventSpotReleasedHandler(
+          waitingListRepo,
+          eventRepo,
+          domainEventManager,
+        ),
+      inject: [
+        'IWaitingListRepository',
+        'IEventRepository',
+        DomainEventManager,
+      ],
     },
     {
       provide: WaitingListService,

@@ -1,6 +1,7 @@
 import { EntityManager } from '@mikro-orm/mysql';
 import { Event, EventId } from '../../../domain/entities/event.entity';
 import { IEventRepository } from '../../../domain/repositories/event-repository.interface';
+import { EventSpotId } from '../../../domain/entities/event-spot';
 
 export class EventMysqlRepository implements IEventRepository {
   constructor(private entityManager: EntityManager) {}
@@ -17,6 +18,19 @@ export class EventMysqlRepository implements IEventRepository {
 
   async findAll(): Promise<Event[]> {
     return this.entityManager.find(Event, {});
+  }
+
+  async findByEventSpotId(spotId: EventSpotId): Promise<Event | null> {
+    // Busca o Event que contém o spot via join nas seções
+    return this.entityManager.findOne(
+      Event,
+      {
+        sections: {
+          spots: { id: spotId },
+        },
+      },
+      { populate: ['sections.spots'] },
+    );
   }
 
   async delete(entity: Event): Promise<void> {

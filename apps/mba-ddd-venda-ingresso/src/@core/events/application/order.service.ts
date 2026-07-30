@@ -8,6 +8,8 @@ import { IEventRepository } from '../domain/repositories/event-repository.interf
 import { IOrderRepository } from '../domain/repositories/order-repository.interface';
 import { ISpotReservationRepository } from '../domain/repositories/spot-reservation-repository.interface';
 import { PaymentGateway } from './payment.gateway';
+import { ApplicationService } from '../../common/application/application.service';
+import { OrderId } from '../domain/entities/order.entity';
 
 export class OrderService {
   constructor(
@@ -17,6 +19,7 @@ export class OrderService {
     private spotReservationRepo: ISpotReservationRepository,
     private uow: IUnitOfWork,
     private paymentGateway: PaymentGateway,
+    private applicationService?: ApplicationService,
   ) {}
 
   list() {
@@ -99,6 +102,21 @@ export class OrderService {
         await this.uow.commit();
         throw new Error('Aconteceu um erro reservar o seu lugar');
       }
+    });
+  }
+
+  async cancel(orderId: string) {
+    if (!this.applicationService) {
+      throw new Error('ApplicationService not configured');
+    }
+    return this.applicationService.run(async () => {
+      const order = await this.orderRepo.findById(orderId);
+      if (!order) {
+        throw new Error('Order not found');
+      }
+      order.cancel();
+      await this.orderRepo.add(order);
+      return order;
     });
   }
 }

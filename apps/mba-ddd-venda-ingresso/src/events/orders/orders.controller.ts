@@ -26,4 +26,12 @@ export class OrdersController {
       event_id: event_id,
     });
   }
+
+  @Post(':order_id/cancel')
+  async cancel(
+    @Param('event_id') event_id: string,
+    @Param('order_id') order_id: string,
+  ) {
+    return this.ordersService.cancel(order_id);
+  }
 }

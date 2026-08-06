@@ -8,10 +8,12 @@ import {
   OrderSchema,
   PartnerSchema,
   SpotReservationSchema,
+  WaitingListSchema,
+  WaitingListEntrySchema,
 } from '../@core/events/infra/db/schemas';
+import { StoredEventSchema } from '../@core/stored-events/infra/db/schemas';
 import { EntityManager } from '@mikro-orm/mysql';
 import { UnitOfWorkMikroOrm } from '../@core/common/infra/unit-of-work-mikro-orm';
-import { StoredEventSchema } from '../@core/stored-events/infra/db/schemas';
 
 @Global()
 @Module({
@@ -25,11 +27,13 @@ import { StoredEventSchema } from '../@core/stored-events/infra/db/schemas';
         EventSpotSchema,
         OrderSchema,
         SpotReservationSchema,
+        WaitingListSchema,
+        WaitingListEntrySchema,
         StoredEventSchema,
       ],
       dbName: 'events',
       host: 'localhost',
-      port: 3306,
+      port: 3307,
       user: 'root',
       password: 'root',
       type: 'mysql',

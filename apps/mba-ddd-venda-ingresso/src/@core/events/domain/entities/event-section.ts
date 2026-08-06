@@ -135,6 +135,22 @@ export class EventSection extends Entity {
     spot.markAsReserved();
   }
 
+  markSpotAsAvailable(spot_id: EventSpotId) {
+    const spot = this.spots.find((spot) => spot.id.equals(spot_id));
+    if (!spot) {
+      throw new Error('Spot not found');
+    }
+    if (!spot.is_reserved) {
+      throw new Error('Spot is not reserved');
+    }
+    spot.markAsAvailable();
+  }
+
+  releaseSpot(command: { section_id: EventSectionId; spot_id: EventSpotId }) {
+    // delegate to mark available; section_id already validated by caller
+    this.markSpotAsAvailable(command.spot_id);
+  }
+
   get spots(): ICollection<EventSpot> {
     return this._spots as ICollection<EventSpot>;
   }

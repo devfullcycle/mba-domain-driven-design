@@ -100,3 +100,24 @@ Content-Type: application/json
     "spot_id": "96298e63-5a38-4352-b97d-322259f10921",
     "card_token": "tok_visa"
 }
+
+###
+@order_id = 00000000-0000-0000-0000-000000000001
+
+###
+POST http://localhost:3000/orders/{{order_id}}/cancel
+Content-Type: application/json
+
+{
+}
+
+###
+POST http://localhost:3000/events/{{event_id}}/sections/{{section_id}}/waiting-list
+Content-Type: application/json
+
+{
+  "customer_id": "{{customer_id}}"
+}
+
+###
+GET http://localhost:3000/events/{{event_id}}/sections/{{section_id}}/waiting-list

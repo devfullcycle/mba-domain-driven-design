@@ -13,6 +13,10 @@ import { Event } from '../../domain/entities/event.entity';
 import { SpotReservation } from '../../domain/entities/spot-reservation.entity';
 import { Order, OrderStatus } from '../../domain/entities/order.entity';
 import { OrderIdSchemaType } from './types/order-id.schema-type';
+import { WaitingList } from '../../domain/entities/waiting-list.entity';
+import { WaitingListIdSchemaType } from './types/waiting-list-id.schema-type';
+import { WaitingListEntry } from '../../domain/entities/waiting-list-entry.entity';
+import { WaitingListEntryIdSchemaType } from './types/waiting-list-entry-id.schema-type';
 
 export const PartnerSchema = new EntitySchema<Partner>({
   class: Partner,
@@ -162,6 +166,56 @@ export const OrderSchema = new EntitySchema<Order>({
       mapToPk: true,
       inherited: true,
       customType: new EventSpotIdSchemaType(),
+    },
+  },
+});
+
+export const WaitingListSchema = new EntitySchema<WaitingList>({
+  class: WaitingList,
+  properties: {
+    id: {
+      customType: new WaitingListIdSchemaType(),
+      primary: true,
+    },
+    event_id: {
+      customType: new EventIdSchemaType(),
+      reference: 'm:1',
+      entity: () => Event,
+    },
+    section_id: {
+      customType: new EventSectionIdSchemaType(),
+      reference: 'm:1',
+      entity: () => EventSection,
+    },
+    entries: {
+      reference: '1:m',
+      entity: () => WaitingListEntry,
+      mappedBy: (entry) => entry.waiting_list_id,
+      eager: true,
+      cascade: [Cascade.ALL],
+    },
+  },
+});
+
+export const WaitingListEntrySchema = new EntitySchema<WaitingListEntry>({
+  class: WaitingListEntry,
+  properties: {
+    id: {
+      customType: new WaitingListEntryIdSchemaType(),
+      primary: true,
+    },
+    customer_id: {
+      customType: new CustomerIdSchemaType(),
+      reference: 'm:1',
+      entity: () => Customer,
+    },
+    status: { type: 'string' },
+    waiting_list_id: {
+      reference: 'm:1',
+      entity: () => WaitingList,
+      hidden: true,
+      mapToPk: true,
+      customType: new WaitingListIdSchemaType(),
     },
   },
 });
